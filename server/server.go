@@ -1,21 +1,39 @@
 package server
 
-import "log"
-import "net/http"
+import (
+	"log"
+	"net/http"
 
-import Api "github.com/fchazal/noteworthy/server/api"
+	"github.com/fchazal/noteworthy/server/books"
+	"github.com/fchazal/noteworthy/server/bookshelves"
+	"github.com/fchazal/noteworthy/server/storage"
+)
 
-func Start () {
-  staticHandler := http.FileServer(http.Dir("./editor/dist"))
-  http.Handle("/", staticHandler)
+func Start() {
+	Initialize()
+	return
 
-	http.HandleFunc("/api/", Api.Handler)
-	http.HandleFunc("/api/libraries/", Api.LibrariesHandler)
-	http.HandleFunc("/api/books/", Api.BooksHandler)
-	http.HandleFunc("/api/chapters/", Api.ChaptersHandler)
-	http.HandleFunc("/api/notes/", Api.NotesHandler)
-	http.HandleFunc("/api/resources/", Api.ResourcesHandler)
+	editorHandler := http.FileServer(http.Dir("./editor/dist"))
+	http.Handle("/", editorHandler)
 
-  log.Println("Listening on :3000...")
+	http.HandleFunc(bookshelves.Path, bookshelves.Handler)
+	http.HandleFunc(books.Path, books.Handler)
+	//	http.HandleFunc(chapters.Path, chapters.Handler)
+	//	http.HandleFunc(notes.Path, notes.Handler)
+	//	http.HandleFunc(resources.Path, resources.Handler)
+
+	log.Println("Listening on :3000...")
 	log.Fatal(http.ListenAndServe(":3000", nil))
+}
+
+func Initialize() {
+	storage.Open("./noteworthy.json")
+
+	shelf := bookshelves.New("Étagère")
+	storage.Library.AddBookshelf(shelf)
+
+	b1 := books.New("Non")
+	shelf.AddBook(b1)
+
+	storage.Save()
 }
