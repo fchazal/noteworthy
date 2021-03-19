@@ -10,9 +10,10 @@ import (
 // NOTE ////////////////////////////////////////////////////////////////////////
 
 type Note struct {
-	Id      string
-	Name    string
-	Content string
+	Id      string `json:"id"`
+	Name    string `json:"name"`
+	Path    string `json:"-"`
+	Parent  string `json:"parent_id"`
 	Created time.Time
 	Updated time.Time
 	resources.ResourceContainer
@@ -22,6 +23,7 @@ func New(name string) *Note {
 	return &Note{
 		uuid.NewV4().String(),
 		name,
+		"",
 		"",
 		time.Time{},
 		time.Time{},

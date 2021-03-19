@@ -7,34 +7,34 @@ import (
 	"os"
 
 	"github.com/fchazal/noteworthy/server/books"
-	"github.com/fchazal/noteworthy/server/bookshelves"
 	"github.com/fchazal/noteworthy/server/chapters"
+	"github.com/fchazal/noteworthy/server/libraries"
 	"github.com/fchazal/noteworthy/server/notes"
 	"github.com/fchazal/noteworthy/server/resources"
 )
 
 type Storage struct {
-	Path        string                            `json:"-"`
-	Bookshelves map[string]*bookshelves.Bookshelf `json:"bookshelves"`
-	Books       map[string]*books.Book            `json:"books"`
-	Chapters    map[string]*chapters.Chapter      `json:"chapters"`
-	Notes       map[string]*notes.Note            `json:"notes"`
-	Resources   map[string]*resources.Resource    `json:"resources"`
-	bookshelves.BookshelfContainer
+	Path      string                         `json:"-"`
+	Libraries map[string]*libraries.Library  `json:"libraries"`
+	Books     map[string]*books.Book         `json:"books"`
+	Chapters  map[string]*chapters.Chapter   `json:"chapters"`
+	Notes     map[string]*notes.Note         `json:"notes"`
+	Resources map[string]*resources.Resource `json:"resources"`
+	libraries.LibraryContainer
 }
 
 var Library *Storage
 
-func Open(path string) {
+func Open(path string) *Storage {
 	if _, err := os.Stat(path); err != nil {
 		Library = &Storage{
 			path,
-			map[string]*bookshelves.Bookshelf{},
+			map[string]*libraries.Library{},
 			map[string]*books.Book{},
 			map[string]*chapters.Chapter{},
 			map[string]*notes.Note{},
 			map[string]*resources.Resource{},
-			bookshelves.NewContainer(),
+			libraries.NewContainer(),
 		}
 	} else {
 		if data, err := ioutil.ReadFile(path); err != nil {
@@ -45,17 +45,19 @@ func Open(path string) {
 		}
 	}
 
-	bookshelves.Bookshelves = &Library.Bookshelves
-	books.Books = &Library.Books
+	libraries.Libraries = &Library.Libraries
+	books.Items = &Library.Books
 	chapters.Chapters = &Library.Chapters
 	notes.Notes = &Library.Notes
 	resources.Resources = &Library.Resources
+
+	return Library
 }
 
-func Save() {
-	data, _ := json.MarshalIndent(Library, "", "	")
+func (s *Storage) Save() {
+	data, _ := json.MarshalIndent(s, "", "	")
 
-	if err := ioutil.WriteFile(Library.Path, data, 0644); err != nil {
+	if err := ioutil.WriteFile(s.Path, data, 0644); err != nil {
 		log.Fatal("can't write database")
 	}
 }

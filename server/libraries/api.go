@@ -1,4 +1,4 @@
-package bookshelves
+package libraries
 
 import (
 	"encoding/json"

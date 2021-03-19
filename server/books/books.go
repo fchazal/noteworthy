@@ -10,8 +10,9 @@ import (
 // BOOKS ///////////////////////////////////////////////////////////////////////
 
 type Book struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
+	Id     string `json:"id"`
+	Name   string `json:"name"`
+	Parent string `json:"parent_id"`
 	notes.NoteContainer
 	chapters.ChapterContainer
 	resources.ResourceContainer
@@ -21,6 +22,7 @@ func New(name string) *Book {
 	return &Book{
 		uuid.NewV4().String(),
 		name,
+		"",
 		notes.NewContainer(),
 		chapters.NewContainer(),
 		resources.NewContainer(),
@@ -29,14 +31,14 @@ func New(name string) *Book {
 
 // ALL BOOKS ///////////////////////////////////////////////////////////////////
 
-var Books *map[string]*Book
+var Items *map[string]*Book
 
 func addBook(b *Book) {
-	(*Books)[b.Id] = b
+	(*Items)[b.Id] = b
 }
 
 func removeBook(b *Book) {
-	delete(*Books, b.Id)
+	delete(*Items, b.Id)
 }
 
 // BOOK CONTAINERS /////////////////////////////////////////////////////////////

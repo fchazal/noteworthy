@@ -9,8 +9,10 @@ import (
 // CHAPTERS ////////////////////////////////////////////////////////////////////
 
 type Chapter struct {
-	Id   string
-	Name string
+	Id     string `json:"id"`
+	Name   string `json:"name"`
+	Path   string `json:"path"`
+	Parent string `json:"parent_id"`
 	notes.NoteContainer
 	resources.ResourceContainer
 }
@@ -19,6 +21,8 @@ func New(name string) *Chapter {
 	return &Chapter{
 		uuid.NewV4().String(),
 		name,
+		"",
+		"",
 		notes.NewContainer(),
 		resources.NewContainer(),
 	}
