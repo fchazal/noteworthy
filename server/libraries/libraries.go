@@ -2,6 +2,7 @@ package libraries
 
 import (
 	"github.com/fchazal/noteworthy/server/books"
+	"github.com/fchazal/noteworthy/server/utils"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -18,7 +19,7 @@ func New(name string) *Library {
 	return &Library{
 		uuid.NewV4().String(),
 		name,
-		"",
+		utils.ToPath(name),
 		books.NewContainer(),
 	}
 }
@@ -53,16 +54,6 @@ func (c *LibraryContainer) AddLibrary(s *Library) {
 }
 
 func (c *LibraryContainer) RemoveLibrary(s *Library) {
-	findAndDelete := func(s []string, e string) []string {
-		x := 0
-		for _, i := range s {
-			if i != e {
-				s[x] = i
-				x++
-			}
-		}
-		return s[:x]
-	}
 	removeLibrary(s)
-	c.Libraries = findAndDelete(c.Libraries, s.Id)
+	c.Libraries = utils.RemoveItem(c.Libraries, s.Id)
 }

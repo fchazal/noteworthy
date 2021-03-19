@@ -1,6 +1,9 @@
 package resources
 
-import uuid "github.com/satori/go.uuid"
+import (
+	"github.com/fchazal/noteworthy/server/utils"
+	uuid "github.com/satori/go.uuid"
+)
 
 // RESOURCES ///////////////////////////////////////////////////////////////////
 
@@ -47,17 +50,6 @@ func (c *ResourceContainer) AddChapter(item *Resource) {
 }
 
 func (c *ResourceContainer) RemoveChapter(item *Resource) {
-	findAndDelete := func(s []string, e string) []string {
-		x := 0
-		for _, i := range s {
-			if i != e {
-				s[x] = i
-				x++
-			}
-		}
-		return s[:x]
-	}
-
 	removeResource(item)
-	c.Resources = findAndDelete(c.Resources, item.Id)
+	c.Resources = utils.RemoveItem(c.Resources, item.Id)
 }

@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fchazal/noteworthy/server/resources"
+	"github.com/fchazal/noteworthy/server/utils"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -60,17 +61,6 @@ func (c *NoteContainer) AddChapter(item *Note) {
 }
 
 func (c *NoteContainer) RemoveChapter(item *Note) {
-	findAndDelete := func(s []string, e string) []string {
-		x := 0
-		for _, i := range s {
-			if i != e {
-				s[x] = i
-				x++
-			}
-		}
-		return s[:x]
-	}
-
 	removeNote(item)
-	c.Notes = findAndDelete(c.Notes, item.Id)
+	c.Notes = utils.RemoveItem(c.Notes, item.Id)
 }

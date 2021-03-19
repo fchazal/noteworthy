@@ -3,6 +3,7 @@ package chapters
 import (
 	"github.com/fchazal/noteworthy/server/notes"
 	"github.com/fchazal/noteworthy/server/resources"
+	"github.com/fchazal/noteworthy/server/utils"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -17,11 +18,11 @@ type Chapter struct {
 	resources.ResourceContainer
 }
 
-func New(name string) *Chapter {
+func New(name string, parent_id string) *Chapter {
 	return &Chapter{
 		uuid.NewV4().String(),
 		name,
-		"",
+		utils.ToPath(name),
 		"",
 		notes.NewContainer(),
 		resources.NewContainer(),
@@ -57,17 +58,6 @@ func (c *ChapterContainer) AddChapter(item *Chapter) {
 }
 
 func (c *ChapterContainer) RemoveChapter(item *Chapter) {
-	findAndDelete := func(s []string, e string) []string {
-		x := 0
-		for _, i := range s {
-			if i != e {
-				s[x] = i
-				x++
-			}
-		}
-		return s[:x]
-	}
-
 	removeChapter(item)
-	c.Chapters = findAndDelete(c.Chapters, item.Id)
+	c.Chapters = utils.RemoveItem(c.Chapters, item.Id)
 }

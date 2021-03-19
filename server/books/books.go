@@ -4,6 +4,7 @@ import (
 	"github.com/fchazal/noteworthy/server/chapters"
 	"github.com/fchazal/noteworthy/server/notes"
 	"github.com/fchazal/noteworthy/server/resources"
+	"github.com/fchazal/noteworthy/server/utils"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -58,17 +59,6 @@ func (c *BookContainer) AddBook(b *Book) {
 }
 
 func (c *BookContainer) RemoveBook(b *Book) {
-	findAndDelete := func(s []string, e string) []string {
-		x := 0
-		for _, i := range s {
-			if i != e {
-				s[x] = i
-				x++
-			}
-		}
-		return s[:x]
-	}
-
 	removeBook(b)
-	c.Books = findAndDelete(c.Books, b.Id)
+	c.Books = utils.RemoveItem(c.Books, b.Id)
 }

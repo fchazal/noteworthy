@@ -7,7 +7,6 @@ import (
 	"github.com/fchazal/noteworthy/server/books"
 	"github.com/fchazal/noteworthy/server/chapters"
 	"github.com/fchazal/noteworthy/server/libraries"
-	bookshelves "github.com/fchazal/noteworthy/server/libraries"
 	"github.com/fchazal/noteworthy/server/notes"
 	"github.com/fchazal/noteworthy/server/resources"
 	"github.com/fchazal/noteworthy/server/storage"
@@ -31,12 +30,5 @@ func Start() {
 
 func Initialize() {
 	memory := storage.Open("./noteworthy.json")
-
-	library := bookshelves.New("Étagère")
-	memory.AddLibrary(library)
-
-	b1 := books.New("Non")
-	library.AddBook(b1)
-
 	memory.Save()
 }
