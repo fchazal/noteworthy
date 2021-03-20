@@ -24,13 +24,16 @@ func New(name string) *Resource {
 // ALL RESOURCES ///////////////////////////////////////////////////////////////
 
 var Resources *map[string]*Resource
+var Save *func()
 
 func addResource(n *Resource) {
 	(*Resources)[n.Id] = n
+	(*Save)()
 }
 
 func removeResource(n *Resource) {
 	delete(*Resources, n.Id)
+	(*Save)()
 }
 
 // RESOURCE CONTAINER //////////////////////////////////////////////////////////

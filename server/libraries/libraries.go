@@ -27,13 +27,16 @@ func New(name string) *Library {
 // ALL BOOKSHELVES /////////////////////////////////////////////////////////////
 
 var Libraries *map[string]*Library
+var Save *func()
 
 func addLibrary(b *Library) {
 	(*Libraries)[b.Id] = b
+	(*Save)()
 }
 
 func removeLibrary(b *Library) {
 	delete(*Libraries, b.Id)
+	(*Save)()
 }
 
 // BOOKSHELF CONTAINERS ////////////////////////////////////////////////////////

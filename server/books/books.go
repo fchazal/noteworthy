@@ -32,14 +32,17 @@ func New(name string) *Book {
 
 // ALL BOOKS ///////////////////////////////////////////////////////////////////
 
-var Items *map[string]*Book
+var Books *map[string]*Book
+var Save *func()
 
 func addBook(b *Book) {
-	(*Items)[b.Id] = b
+	(*Books)[b.Id] = b
+	(*Save)()
 }
 
 func removeBook(b *Book) {
-	delete(*Items, b.Id)
+	delete(*Books, b.Id)
+	(*Save)()
 }
 
 // BOOK CONTAINERS /////////////////////////////////////////////////////////////

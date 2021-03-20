@@ -35,13 +35,16 @@ func New(name string) *Note {
 // ALL NOTES ///////////////////////////////////////////////////////////////////
 
 var Notes *map[string]*Note
+var Save *func()
 
 func addNote(n *Note) {
 	(*Notes)[n.Id] = n
+	(*Save)()
 }
 
 func removeNote(n *Note) {
 	delete(*Notes, n.Id)
+	(*Save)()
 }
 
 // NOTE CONTAINER //////////////////////////////////////////////////////////////

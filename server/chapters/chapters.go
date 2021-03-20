@@ -32,13 +32,16 @@ func New(name string, parent_id string) *Chapter {
 // ALL CHAPTERS ////////////////////////////////////////////////////////////////
 
 var Chapters *map[string]*Chapter
+var Save *func()
 
 func addChapter(c *Chapter) {
 	(*Chapters)[c.Id] = c
+	(*Save)()
 }
 
 func removeChapter(c *Chapter) {
 	delete(*Chapters, c.Id)
+	(*Save)()
 }
 
 // CHAPTER CONTAINER ///////////////////////////////////////////////////////////

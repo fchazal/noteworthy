@@ -45,11 +45,23 @@ func Open(path string) *Storage {
 		}
 	}
 
+	// TODO: Ugly hack to achieve this without circular dependencies
+	save := func() { Library.Save() }
+
 	libraries.Libraries = &Library.Libraries
-	books.Items = &Library.Books
+	libraries.Save = &save
+
+	books.Books = &Library.Books
+	books.Save = &save
+
 	chapters.Chapters = &Library.Chapters
+	chapters.Save = &save
+
 	notes.Notes = &Library.Notes
+	notes.Save = &save
+
 	resources.Resources = &Library.Resources
+	resources.Save = &save
 
 	return Library
 }
