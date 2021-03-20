@@ -1,9 +1,9 @@
 package books
 
 import (
-	"github.com/fchazal/noteworthy/server/chapters"
-	"github.com/fchazal/noteworthy/server/notes"
-	"github.com/fchazal/noteworthy/server/resources"
+	"github.com/fchazal/noteworthy/server/api/chapters"
+	"github.com/fchazal/noteworthy/server/api/notes"
+	"github.com/fchazal/noteworthy/server/api/resources"
 	"github.com/fchazal/noteworthy/server/utils"
 	uuid "github.com/satori/go.uuid"
 )

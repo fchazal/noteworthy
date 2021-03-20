@@ -2,7 +2,6 @@ package libraries
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/fchazal/noteworthy/server/utils"
@@ -19,7 +18,7 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 	} else {
 		l := Library{}
 		json.NewDecoder(req.Body).Decode(&l)
-		fmt.Println(l)
+
 		l.Id = uuid.NewV4().String()
 		l.Path = utils.ToPath(l.Name)
 
@@ -29,6 +28,7 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 
 		case "PUT":
 		case "DELETE":
+
 		}
 
 		data, _ = json.Marshal(&l)

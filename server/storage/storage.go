@@ -6,11 +6,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/fchazal/noteworthy/server/books"
-	"github.com/fchazal/noteworthy/server/chapters"
-	"github.com/fchazal/noteworthy/server/libraries"
-	"github.com/fchazal/noteworthy/server/notes"
-	"github.com/fchazal/noteworthy/server/resources"
+	"github.com/fchazal/noteworthy/server/api/books"
+	"github.com/fchazal/noteworthy/server/api/chapters"
+	"github.com/fchazal/noteworthy/server/api/libraries"
+	"github.com/fchazal/noteworthy/server/api/notes"
+	"github.com/fchazal/noteworthy/server/api/resources"
 )
 
 type Storage struct {
@@ -45,24 +45,6 @@ func Open(path string) *Storage {
 		}
 	}
 
-	// TODO: Ugly hack to achieve this without circular dependencies
-	save := func() { Library.Save() }
-
-	libraries.Libraries = &Library.Libraries
-	libraries.Save = &save
-
-	books.Books = &Library.Books
-	books.Save = &save
-
-	chapters.Chapters = &Library.Chapters
-	chapters.Save = &save
-
-	notes.Notes = &Library.Notes
-	notes.Save = &save
-
-	resources.Resources = &Library.Resources
-	resources.Save = &save
-
 	return Library
 }
 
@@ -72,4 +54,8 @@ func (s *Storage) Save() {
 	if err := ioutil.WriteFile(s.Path, data, 0644); err != nil {
 		log.Fatal("can't write database")
 	}
+}
+
+func Save() {
+	Library.Save()
 }

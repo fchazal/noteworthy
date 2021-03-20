@@ -1,7 +1,7 @@
 package libraries
 
 import (
-	"github.com/fchazal/noteworthy/server/books"
+	"github.com/fchazal/noteworthy/server/api/books"
 	"github.com/fchazal/noteworthy/server/utils"
 	uuid "github.com/satori/go.uuid"
 )
