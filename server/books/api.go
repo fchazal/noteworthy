@@ -14,8 +14,8 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 
 	if req.Method == "GET" {
 		if len(elements) == 1 {
-			if (*Items)[elements[0]] != nil {
-				result, _ = json.Marshal((*Items)[elements[0]])
+			if (*Books)[elements[0]] != nil {
+				result, _ = json.Marshal((*Books)[elements[0]])
 			}
 		}
 	} else {
