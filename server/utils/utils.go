@@ -9,7 +9,25 @@ import (
 	"golang.org/x/text/unicode/norm"
 )
 
-func RemoveItem(list []string, item string) []string {
+func ToPath(name string) string {
+	t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
+	transformed, _, _ := transform.String(t, name)
+	lowered := strings.ToLower(transformed)
+	nospace := strings.ReplaceAll(lowered, " ", "_")
+	noquote := strings.ReplaceAll(nospace, "'", "")
+	return noquote
+}
+
+func InSlice(list []string, item string) bool {
+	for _, b := range list {
+		if b == item {
+			return true
+		}
+	}
+	return false
+}
+
+func RemoveFromSlice(list []string, item string) []string {
 	index := 0
 	for _, i := range list {
 		if i != item {
@@ -18,13 +36,4 @@ func RemoveItem(list []string, item string) []string {
 		}
 	}
 	return list[:index]
-}
-
-func ToPath(name string) string {
-	t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
-	transformed, _, _ := transform.String(t, name)
-	lowered := strings.ToLower(transformed)
-	nospace := strings.ReplaceAll(lowered, " ", "_")
-	noquote := strings.ReplaceAll(nospace, "'", "")
-	return noquote
 }

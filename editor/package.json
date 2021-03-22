@@ -5,11 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "watch": "vue-cli-service build --watch",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^3.0.0"
+    "feather-icons": "^4.28.0",
+    "vue": "^3.0.0",
+    "vue-feather": "^2.0.0-beta"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

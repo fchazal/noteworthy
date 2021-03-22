@@ -6,46 +6,36 @@ import (
 	"log"
 	"os"
 
-	"github.com/fchazal/noteworthy/server/api/books"
-	"github.com/fchazal/noteworthy/server/api/chapters"
-	"github.com/fchazal/noteworthy/server/api/libraries"
-	"github.com/fchazal/noteworthy/server/api/notes"
-	"github.com/fchazal/noteworthy/server/api/resources"
+	"github.com/fchazal/noteworthy/server/types"
 )
 
 type Storage struct {
-	Path      string                         `json:"-"`
-	Libraries map[string]*libraries.Library  `json:"libraries"`
-	Books     map[string]*books.Book         `json:"books"`
-	Chapters  map[string]*chapters.Chapter   `json:"chapters"`
-	Notes     map[string]*notes.Note         `json:"notes"`
-	Resources map[string]*resources.Resource `json:"resources"`
-	libraries.LibraryContainer
+	Path      string                    `json:"-"`
+	Libraries map[string]*types.Library `json:"libraries"`
+	Books     map[string]*types.Book    `json:"books"`
+	BookStore types.Store               `json:"store"`
 }
 
-var Library *Storage
+var Store *Storage
 
 func Open(path string) *Storage {
 	if _, err := os.Stat(path); err != nil {
-		Library = &Storage{
+		Store = &Storage{
 			path,
-			map[string]*libraries.Library{},
-			map[string]*books.Book{},
-			map[string]*chapters.Chapter{},
-			map[string]*notes.Note{},
-			map[string]*resources.Resource{},
-			libraries.NewContainer(),
+			map[string]*types.Library{},
+			map[string]*types.Book{},
+			types.Store{},
 		}
 	} else {
 		if data, err := ioutil.ReadFile(path); err != nil {
 			log.Fatal("can't read database")
 		} else {
-			Library = &Storage{Path: path}
-			json.Unmarshal(data, Library)
+			Store = &Storage{Path: path}
+			json.Unmarshal(data, Store)
 		}
 	}
 
-	return Library
+	return Store
 }
 
 func (s *Storage) Save() {
@@ -57,5 +47,5 @@ func (s *Storage) Save() {
 }
 
 func Save() {
-	Library.Save()
+	Store.Save()
 }
