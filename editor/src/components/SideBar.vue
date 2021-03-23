@@ -33,8 +33,9 @@ export default {
 
 <style>
 aside {
+  padding-left: .5em;
   max-width: 300px;
-  border-right: 5px solid rgba(0,0,0,0.02);
+  background-color: #69e4;
 }
 
 aside button {
@@ -52,6 +53,28 @@ aside button {
 }
 
 aside .vue-feather {
-  margin: auto .5em;
+  margin: auto .5em auto 0;
+  color: #69e;
+  font-size: 1.2em;
+}
+
+aside .item {
+  margin-bottom: 5px;
+  background: #fff4;
+  border-radius: 5px 0 0 5px;
+  overflow: hidden;
+}
+aside .item:hover {
+  background: #fff6;
+}
+
+aside .item .name {
+  display: flex;
+  padding: 0.5em;
+  padding-right: 0;
+}
+
+aside .item .children {
+  margin-left: 5px;
 }
 </style>

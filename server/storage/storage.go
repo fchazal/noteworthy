@@ -10,10 +10,13 @@ import (
 )
 
 type Storage struct {
-	Path      string                    `json:"-"`
-	Libraries map[string]*types.Library `json:"libraries"`
-	Books     map[string]*types.Book    `json:"books"`
-	BookStore types.Store               `json:"store"`
+	Path      string                     `json:"-"`
+	Libraries map[string]*types.Library  `json:"libraries"`
+	Books     map[string]*types.Book     `json:"books"`
+	Chapters  map[string]*types.Chapter  `json:"chapters"`
+	Notes     map[string]*types.Note     `json:"notes"`
+	Resources map[string]*types.Resource `json:"resources"`
+	BookStore types.Store                `json:"store"`
 }
 
 var Store *Storage
@@ -24,6 +27,9 @@ func Open(path string) *Storage {
 			path,
 			map[string]*types.Library{},
 			map[string]*types.Book{},
+			map[string]*types.Chapter{},
+			map[string]*types.Note{},
+			map[string]*types.Resource{},
 			types.Store{},
 		}
 	} else {

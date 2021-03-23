@@ -19,13 +19,18 @@ export default {
 header {
 	padding: 1em;
 
-	color: whitesmoke;
-	background-color: cornflowerblue;
+	color: #fff;
+	background-color: #69e;
 }
 
 h1 {
+	display: flex;
+	align-items: center;
+
 	margin: 0;
 	padding: 0;
 	font-weight: 400;
 }
+
+h1 .vue-feather { margin-right: .2em }
 </style>

@@ -1,5 +1,7 @@
 package types
 
+import "time"
+
 // STORE ///////////////////////////////////////////////////////////////////////
 
 type Store struct {
@@ -22,18 +24,17 @@ type Book struct {
 	Item
 	Path     string `json:"path"`
 	ParentId string `json:"parent_id,omitempty"`
-	//	NoteContainer
-	//	ChapterContainer
-	//	ResourceContainer
+	ChapterContainer
+	NoteContainer
+	ResourceContainer
 }
 
-/*
 // CHAPTER /////////////////////////////////////////////////////////////////////
 
 type Chapter struct {
 	Item
-	Path   string `json:"path"`
-	Parent string `json:"parent_id"`
+	Path     string `json:"path"`
+	ParentId string `json:"parent_id"`
 	NoteContainer
 	ResourceContainer
 }
@@ -42,20 +43,20 @@ type Chapter struct {
 
 type Note struct {
 	Item
-	Path    string `json:"-"`
-	Parent  string `json:"parent_id"`
-	Created time.Time
-	Updated time.Time
-	ResourceContainer
+	Path     string    `json:"path"`
+	ParentId string    `json:"parent_id"`
+	Created  time.Time `json:"created"`
+	Updated  time.Time `json:"updated"`
 }
 
 // RESOURCE ////////////////////////////////////////////////////////////////////
 
 type Resource struct {
 	Item
-	Path string
+	ParentId string `json:"parent_id`
+	Path     string `json:"path"`
 }
-*/
+
 // ITEM ////////////////////////////////////////////////////////////////////////
 
 type Item struct {

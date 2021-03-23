@@ -10,24 +10,29 @@ import (
 )
 
 type Book struct {
-	Id       string       `json:"id"`
-	Name     string       `json:"name"`
-	ParentId string       `json:"parent_id"`
-	Chapters []types.Item `json:"chapters"`
-	Notes    []types.Item `json:"notes"`
+	Id        string       `json:"id"`
+	Name      string       `json:"name"`
+	ParentId  string       `json:"parent_id"`
+	Chapters  []types.Item `json:"chapters"`
+	Notes     []types.Item `json:"notes"`
+	Resources []types.Item `json:"resources"`
 }
 
 func toBook(b *types.Book) *Book {
-	result := Book{b.Id, b.Name, b.ParentId, []types.Item{}, []types.Item{}}
-	/*
-		for _, id := range b.Chapters {
-			result.Chapters = append(result.Chapters, storage.Store.Chapters[id].Item)
-		}
+	result := Book{b.Id, b.Name, b.ParentId, []types.Item{}, []types.Item{}, []types.Item{}}
 
-		for _, id := range b.Notes {
-			result.Notes = append(result.Notes, storage.Store.Notes[id].Item)
-		}
-	*/
+	for _, id := range b.Chapters {
+		result.Chapters = append(result.Chapters, storage.Store.Chapters[id].Item)
+	}
+
+	for _, id := range b.Notes {
+		result.Notes = append(result.Notes, storage.Store.Notes[id].Item)
+	}
+
+	for _, id := range b.Resources {
+		result.Resources = append(result.Resources, storage.Store.Resources[id].Item)
+	}
+
 	return &result
 }
 
@@ -89,6 +94,7 @@ func bookHandler(w http.ResponseWriter, req *http.Request) {
 				result = toBook(b)
 			}
 		case "DELETE":
+			// TODO: what about contained chapters, notes and resources
 			if s.Books[id] != nil {
 				b := s.Books[id]
 				result = toBook(b)
@@ -99,6 +105,7 @@ func bookHandler(w http.ResponseWriter, req *http.Request) {
 				} else {
 					s.Libraries[b.ParentId].RemoveBook(b.Id)
 				}
+
 				s.Save()
 			}
 		}

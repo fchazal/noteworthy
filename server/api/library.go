@@ -59,6 +59,8 @@ func libraryHandler(w http.ResponseWriter, req *http.Request) {
 				result = toLibrary(l)
 			}
 		case "DELETE":
+			// TODO: what about contained books
+
 			if s.Libraries[id] != nil {
 				l := s.Libraries[id]
 				result = toLibrary(l)

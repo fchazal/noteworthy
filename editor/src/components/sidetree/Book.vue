@@ -1,8 +1,10 @@
 <template>
-	<div class="item" @click="getElements"><vue-feather type="book"></vue-feather>{{ name }}</div>
-	<div class="children">
-    <Chapter :key="item.id" v-for="item in elements.chapters" :name="item.name" :id="item.id"></Chapter>
-    <Note :key="item.id" v-for="item in elements.notes" :name="item.name" :id="item.id"></Note>
+	<div class="item" @click="getElements">
+    <div class="name"><vue-feather type="book" size="1em"></vue-feather>{{ name }}</div>
+    <div class="children">
+      <Chapter :key="item.id" v-for="item in elements.chapters" :name="item.name" :id="item.id"></Chapter>
+      <Note :key="item.id" v-for="item in elements.notes" :name="item.name" :id="item.id"></Note>
+    </div>
   </div>
 </template>
 
